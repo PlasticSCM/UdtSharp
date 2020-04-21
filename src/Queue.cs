@@ -233,7 +233,7 @@ namespace UdtSharp
                     return -1;
 
                 // no pop until the next schedulled time
-                ulong ts = Timer.getTime();
+                ulong ts = Timer.rdtsc();
                 if (ts < m_pHeap[0].m_llTimeStamp)
                     return -1;
 
@@ -515,7 +515,7 @@ namespace UdtSharp
                 if (ts > 0)
                 {
                     // wait until next processing time of the first socket on the list
-                    ulong currtime = Timer.getTime();
+                    ulong currtime = Timer.rdtsc();
                     if (currtime < ts)
                         self.m_pTimer.sleepto(ts);
 
@@ -552,7 +552,7 @@ namespace UdtSharp
         public void insert(UDT u)
         {
             RNode n = u.m_pRNode;
-            n.m_llTimeStamp = Timer.getTime();
+            n.m_llTimeStamp = Timer.rdtsc();
 
             // always insert at the end for RcvUList
             m_nodeList.Add(n);
@@ -579,7 +579,7 @@ namespace UdtSharp
             if (match.Equals(default(RNode)))
                 return;
 
-            match.m_llTimeStamp = Timer.getTime();
+            match.m_llTimeStamp = Timer.rdtsc();
         }
     }
 
@@ -730,7 +730,7 @@ namespace UdtSharp
             TIMER_CHECK:
                 // take care of the timing event for all UDT sockets
 
-                ulong currtime = Timer.getTime();
+                ulong currtime = Timer.rdtsc();
 
                 ulong ctime = currtime - 100000 * Timer.getCPUFrequency();
                 for (int i = 0; i < self.m_pRcvUList.m_nodeList.Count; ++i)

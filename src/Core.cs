@@ -697,7 +697,7 @@ namespace UdtSharp
             m_ullNAKInt = m_ullMinNakInt;
 
 
-            ulong currtime = Timer.getTime();
+            ulong currtime = Timer.rdtsc();
             m_ullLastRspTime = currtime;
             m_ullNextACKTime = currtime + m_ullSYNInt;
             m_ullNextNAKTime = currtime + m_ullNAKInt;
@@ -1204,7 +1204,7 @@ namespace UdtSharp
             if (m_pSndBuffer.getCurrBufSize() == 0)
             {
                 // delay the EXP timer to avoid mis-fired timeout
-                ulong currtime = Timer.getTime();
+                ulong currtime = Timer.rdtsc();
                 m_ullLastRspTime = currtime;
             }
 
@@ -1372,8 +1372,7 @@ namespace UdtSharp
             if (m_pSndBuffer.getCurrBufSize() == 0)
             {
                 // delay the EXP timer to avoid mis-fired timeout
-                ulong currtime = Timer.getTime();
-                m_ullLastRspTime = currtime;
+                m_ullLastRspTime = Timer.rdtsc();
             }
 
             if ((m_iSndBufSize - m_pSndBuffer.getCurrBufSize()) * m_iPayloadSize < len)
@@ -1655,7 +1654,7 @@ namespace UdtSharp
                             break;
                         }
 
-                        ulong currtime = Timer.getTime();
+                        ulong currtime = Timer.rdtsc();
 
                         // There are new received packets to acknowledge, update related information.
                         if (SequenceNumber.seqcmp(ack, m_iRcvLastAck) > 0)
@@ -1701,7 +1700,7 @@ namespace UdtSharp
                                 data[5] = m_pRcvTimeWindow.getBandwidth();
                                 ctrlpkt.pack(pkttype, m_iAckSeqNo, data);
 
-                                m_ullLastAckTime = Timer.getTime();
+                                m_ullLastAckTime = Timer.rdtsc();
                             }
                             else
                             {
@@ -1784,7 +1783,7 @@ namespace UdtSharp
                     ctrlpkt.SetId(m_PeerID);
                     m_pSndQueue.sendto(m_pPeerAddr, ctrlpkt);
 
-                    m_ullLastWarningTime = Timer.getTime();
+                    m_ullLastWarningTime = Timer.rdtsc();
                     break;
 
                 case 1: //001 - Keep-alive
@@ -1834,7 +1833,7 @@ namespace UdtSharp
         {
             // Just heard from the peer, reset the expiration count.
             m_iEXPCount = 1;
-            ulong currtime = Timer.getTime();
+            ulong currtime = Timer.rdtsc();
             m_ullLastRspTime = currtime;
 
             switch (ctrlpkt.getType())
@@ -2140,7 +2139,7 @@ namespace UdtSharp
             int payload = 0;
             bool probe = false;
 
-            ulong entertime = Timer.getTime();
+            ulong entertime = Timer.rdtsc();
 
             if ((0 != m_ullTargetTime) && (entertime > m_ullTargetTime))
                 m_ullTimeDiff += entertime - m_ullTargetTime;
@@ -2273,7 +2272,7 @@ namespace UdtSharp
 
             // Just heard from the peer, reset the expiration count.
             m_iEXPCount = 1;
-            ulong currtime = Timer.getTime();
+            ulong currtime = Timer.rdtsc();
             m_ullLastRspTime = currtime;
 
             m_pCC.onPktReceived(packet);
@@ -2322,7 +2321,7 @@ namespace UdtSharp
             // This is not a regular fixed size packet...   
             //an irregular sized packet usually indicates the end of a message, so send an ACK immediately   
             if (packet.getLength() != m_iPayloadSize)
-                m_ullNextACKTime = Timer.getTime();
+                m_ullNextACKTime = Timer.rdtsc();
 
             // Update the current largest sequence number that has been received.
             // Or it is a retransmitted packet, remove it from receiver loss list.
@@ -2423,14 +2422,14 @@ namespace UdtSharp
             //if (m_ullInterval < minint)
             //   m_ullInterval = minint;
 
-            ulong currtime = Timer.getTime();
+            ulong currtime = Timer.rdtsc();
 
             if ((currtime > m_ullNextACKTime) || ((m_pCC.m_iACKInterval > 0) && (m_pCC.m_iACKInterval <= m_iPktCount)))
             {
                 // ACK timer expired or ACK interval is reached
 
                 sendCtrl(2);
-                currtime = Timer.getTime();
+                currtime = Timer.rdtsc();
                 if (m_pCC.m_iACKPeriod > 0)
                     m_ullNextACKTime = currtime + (ulong)m_pCC.m_iACKPeriod * m_ullCPUFrequency;
                 else

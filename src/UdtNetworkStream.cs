@@ -3,7 +3,7 @@ using System.IO;
 
 namespace UdtSharp
 {
-    class UdtNetworkStream : Stream
+    public class UdtNetworkStream : Stream
     {
         public UdtNetworkStream(UdtSocket socket)
         {

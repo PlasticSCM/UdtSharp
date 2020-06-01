@@ -1861,7 +1861,7 @@ namespace UdtSharp
                         // send ACK acknowledgement
                         // number of ACK2 can be much less than number of ACK
                         ulong now = Timer.getTime();
-                        if ((currtime - m_ullSndLastAck2Time > m_iSYNInterval) || (ack == m_iSndLastAck2))
+                        if ((now - m_ullSndLastAck2Time > m_iSYNInterval) || (ack == m_iSndLastAck2))
                         {
                             sendCtrl(6, &ack);
                             m_iSndLastAck2 = ack;
@@ -1904,9 +1904,9 @@ namespace UdtSharp
                         m_pSndBuffer.ackData(offset);
 
                         // record total time used for sending
-                        m_llSndDuration += (long)currtime - m_llSndDurationCounter;
-                        m_llSndDurationTotal += (long)currtime - m_llSndDurationCounter;
-                        m_llSndDurationCounter = (long)currtime;
+                        m_llSndDuration += (long)now - m_llSndDurationCounter;
+                        m_llSndDurationTotal += (long)now - m_llSndDurationCounter;
+                        m_llSndDurationCounter = (long)now;
 
                         // update sending variables
                         m_iSndLastDataAck = ack;

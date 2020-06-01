@@ -1226,7 +1226,7 @@ namespace UdtSharp
                         ulong exptime = Timer.getTime() + (ulong)m_iSndTimeOut * 1000;
 
                         while (!m_bBroken && m_bConnected && !m_bClosing && (m_iSndBufSize <= m_pSndBuffer.getCurrBufSize()) && m_bPeerHealth && (Timer.getTime() < exptime))
-                            m_SendBlockCond.WaitOne((int)(exptime - Timer.getTime() / 1000));
+                            m_SendBlockCond.WaitOne((int)(exptime - Timer.getTime()) / 1000);
                     }
 
                     // check the connection status
@@ -1392,7 +1392,7 @@ namespace UdtSharp
                         ulong exptime = Timer.getTime() + (ulong)m_iSndTimeOut * 1000;
 
                         while (!m_bBroken && m_bConnected && !m_bClosing && ((m_iSndBufSize - m_pSndBuffer.getCurrBufSize()) * m_iPayloadSize < len) && (Timer.getTime() < exptime))
-                            m_SendBlockCond.WaitOne((int)(exptime - Timer.getTime() / 1000));
+                            m_SendBlockCond.WaitOne((int)(exptime - Timer.getTime()) / 1000);
                     }
 
                     // check the connection status

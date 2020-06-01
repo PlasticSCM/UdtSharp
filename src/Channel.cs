@@ -177,7 +177,7 @@ namespace UdtSharp
         {
             try
             {
-            if (!m_socket.Poll(1, SelectMode.SelectRead))
+            if (!m_socket.Poll(10000, SelectMode.SelectRead))
                 return -1;
             }
             catch (SocketException sex)

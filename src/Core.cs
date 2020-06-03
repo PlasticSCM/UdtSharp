@@ -281,11 +281,11 @@ namespace UdtSharp
             m_iMSS = 1500;
             m_bSynSending = true;
             m_bSynRecving = true;
-            m_iFlightFlagSize_p = 204800;
-            m_iSndBufSize_p = 65536;
-            m_iRcvBufSize_p = 65536; //Rcv buffer MUST NOT be bigger than Flight Flag size
+            m_iFlightFlagSize = 204800;
+            m_iSndBufSize = 65536;
+            m_iRcvBufSize = 65536; //Rcv buffer MUST NOT be bigger than Flight Flag size
             m_Linger = new LingerOption(true, 180);
-            m_iUDPSndBufSize_b = 524288;
+            m_iUDPSndBufSize = 524288;
             m_iUDPRcvBufSize = m_iRcvBufSize * m_iMSS;
             m_iSockType = SocketType.Stream;
             m_iIPversion = AddressFamily.InterNetwork;

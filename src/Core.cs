@@ -289,7 +289,7 @@ namespace UdtSharp
             m_iUDPRcvBufSize = m_iRcvBufSize * m_iMSS;
             m_iSockType = SocketType.Stream;
             m_iIPversion = AddressFamily.InterNetwork;
-            m_bRendezvous = false;
+            m_bRendezvous = true;
             m_iSndTimeOut = -1;
             m_iRcvTimeOut = -1;
             m_bReuseAddr = true;

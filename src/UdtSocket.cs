@@ -21,6 +21,20 @@ namespace UdtSharp
             }
         }
 
+        public int Bind(Socket socket)
+        {
+            try
+            {
+                int status = UDT.s_UDTUnited.bind(mSocketId, socket);
+                mLocalEndPoint = (IPEndPoint)socket.LocalEndPoint;
+                return status;
+            }
+            catch (UdtException udtException)
+            {
+                throw new Exception("Problem when binding to existing socket", udtException);
+            }
+        }
+
         public int Bind(IPEndPoint serverAddress)
         {
             try

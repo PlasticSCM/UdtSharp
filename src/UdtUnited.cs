@@ -353,16 +353,12 @@ namespace UdtSharp
                 if (UDTSTATUS.INIT != s.m_Status)
                     throw new UdtException(5, 0, 0);
 
-                IPEndPoint name = null;
-                s.m_pUDT.m_pSndQueue.m_pChannel.getSockAddr(ref name); //TODO CHECK THIS
-
+                IPEndPoint name = (IPEndPoint)udpsock.LocalEndPoint;
                 s.m_pUDT.open();
                 updateMux(s, name, udpsock);
                 s.m_Status = UDTSTATUS.OPENED;
-
                 // copy address information of local node
                 s.m_pUDT.m_pSndQueue.m_pChannel.getSockAddr(ref s.m_pSelfAddr);
-
                 return 0;
             }
         }
@@ -493,8 +489,6 @@ namespace UdtSharp
                     else
                         throw new UdtException(5, 8, 0);
                 }
-                else if (UDTSTATUS.OPENED != s.m_Status)
-                    throw new UdtException(5, 2, 0);
 
                 // connect_complete() may be called before connect() returns.
                 // So we need to update the status before connect() is called,

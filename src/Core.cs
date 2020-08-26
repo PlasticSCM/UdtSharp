@@ -1178,10 +1178,10 @@ namespace UdtSharp
         }
 
         public int send(byte[] data, int offset, int len)
-        {
+        {   /* error with major 5 and minor 10 meant "This operation is not supported in SOCK_DGRAM mode"
             if (SocketType.Dgram == m_iSockType)
                 throw new UdtException(5, 10, 0);
-
+            */
             // throw an exception if not connected
             if (m_bBroken || m_bClosing)
                 throw new UdtException(2, 1, 0);
@@ -1275,10 +1275,10 @@ namespace UdtSharp
         }
 
         public int recv(byte[] data, int offset, int len)
-        {
+        {   /* error with major 5 and minor 10 meant "This operation is not supported in SOCK_DGRAM mode"
             if (SocketType.Dgram == m_iSockType)
                 throw new UdtException(5, 10, 0);
-
+            */
             // throw an exception if not connected
             if (!m_bConnected)
                 throw new UdtException(2, 2, 0);

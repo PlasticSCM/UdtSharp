@@ -76,7 +76,13 @@ namespace UdtSharp
         void setUDPSockOpt()
         {
             bool isMac = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-            bool isBSD = RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
+
+            bool isBSD =
+#if NETSTANDARD2_0
+                false;
+#else
+                RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
+#endif
 
             if (isMac || isBSD)
             {

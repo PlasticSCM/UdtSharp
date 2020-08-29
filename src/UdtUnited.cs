@@ -84,7 +84,7 @@ namespace UdtSharp
         Dictionary<int, Multiplexer> m_mMultiplexer = new Dictionary<UDTSOCKET, Multiplexer>();      // UDP multiplexer
         object m_MultiplexerLock = new object();
 
-        HashSet<InfoBlock> m_pCache = new HashSet<InfoBlock>();            // UDT network information cache
+        Dictionary<IPAddress, InfoBlock> m_pCache = new Dictionary<IPAddress, InfoBlock>();            // UDT network information cache
 
         volatile bool m_bClosing;
         object m_GCStopLock = new object();

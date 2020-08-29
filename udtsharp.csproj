@@ -1,8 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetProfile>netstandard</TargetProfile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>UdtPerfTest.Program</StartupObject>
+  </PropertyGroup>
+
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>udtsharp</AssemblyName>
     <RootNamespace>udtperftest</RootNamespace>
     <PackageId>UdtSharp</PackageId>
@@ -15,7 +24,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <StartupObject>UdtPerfTest.Program</StartupObject>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 

@@ -17,7 +17,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception($"Problem when initializing new socket type {socketType}", udtException);
             }
         }
 
@@ -31,7 +31,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception($"Problem when binding to server address {serverAddress}", udtException);
             }
         }
 
@@ -43,7 +43,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception($"Problem when listening with {maxConnections}", udtException);
             }
         }
 
@@ -60,7 +60,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception("Problem when accepting socket", udtException);
             }
         }
 
@@ -74,7 +74,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception($"Problem when connecting to server endpoint {server}", udtException);
             }
         }
 
@@ -92,7 +92,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception("Problem when sending data", udtException);
             }
         }
 
@@ -105,7 +105,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception("Problem when receiving data", udtException);
             }
         }
 
@@ -117,7 +117,7 @@ namespace UdtSharp
             }
             catch (UdtException udtException)
             {
-                throw new Exception(udtException.getErrorMessage(), udtException);
+                throw new Exception("Problem when closing socket", udtException);
             }
         }
 

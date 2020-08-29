@@ -1,0 +1,16 @@
+name: ci
+on: push
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        dotnet restore && dotnet build -c Release
+    - name: Package and upload
+      run: |
+        git clone https://github.com/nblockchain/fsx
+        sudo apt install -y fsharp
+        fsx/Tools/nugetPush.fsx 0.1 ${{secrets.NUGET_API_KEY}}

@@ -138,7 +138,7 @@ namespace UdtSharp
         // congestion control
         CCVirtualFactory m_pCCFactory;             // Factory class to create a specific CC instance
         CC m_pCC;                                  // congestion control class
-        public HashSet<InfoBlock> m_pCache = new HashSet<InfoBlock>();       // network information cache
+        public Dictionary<IPAddress,InfoBlock> m_pCache = new Dictionary<IPAddress, InfoBlock>();       // network information cache
 
         // Status
         volatile bool m_bListening;                  // If the UDT entit is listening to connection
@@ -289,7 +289,7 @@ namespace UdtSharp
             m_iUDPRcvBufSize = m_iRcvBufSize * m_iMSS;
             m_iSockType = SocketType.Stream;
             m_iIPversion = AddressFamily.InterNetwork;
-            m_bRendezvous = false;
+            m_bRendezvous = true;
             m_iSndTimeOut = -1;
             m_iRcvTimeOut = -1;
             m_bReuseAddr = true;
@@ -939,8 +939,8 @@ namespace UdtSharp
                 throw new UdtException(3, 2, 0);
             }
 
-            InfoBlock ib = new InfoBlock(m_pPeerAddr.Address);
-            if (m_pCache.TryGetValue(ib, out ib))
+            InfoBlock ib;
+            if (m_pCache.TryGetValue(m_pPeerAddr.Address, out ib))
             {
                 m_iRTT = ib.m_iRTT;
                 m_iBandwidth = ib.m_iBandwidth;
@@ -1041,8 +1041,8 @@ namespace UdtSharp
                 throw new UdtException(3, 2, 0);
             }
 
-            InfoBlock ib = new InfoBlock(peer.Address);
-            if (m_pCache.TryGetValue(ib, out ib))
+            InfoBlock ib;
+            if (m_pCache.TryGetValue(peer.Address, out ib))
             {
                 m_iRTT = ib.m_iRTT;
                 m_iBandwidth = ib.m_iBandwidth;
@@ -1163,10 +1163,11 @@ namespace UdtSharp
                 m_pCC.close();
 
                 // Store current connection information.
-                InfoBlock ib = new InfoBlock(m_pPeerAddr.Address);
-                if (!m_pCache.Add(ib))
+                InfoBlock ib;
+                if (!m_pCache.TryGetValue(m_pPeerAddr.Address, out ib))
                 {
-                    m_pCache.TryGetValue(ib, out ib);
+                    ib = new InfoBlock(m_pPeerAddr.Address);
+                    m_pCache[m_pPeerAddr.Address] = ib;
                 }
                 ib.m_iRTT = m_iRTT;
                 ib.m_iBandwidth = m_iBandwidth;
@@ -1177,10 +1178,10 @@ namespace UdtSharp
         }
 
         public int send(byte[] data, int offset, int len)
-        {
+        {   /* error with major 5 and minor 10 meant "This operation is not supported in SOCK_DGRAM mode"
             if (SocketType.Dgram == m_iSockType)
                 throw new UdtException(5, 10, 0);
-
+            */
             // throw an exception if not connected
             if (m_bBroken || m_bClosing)
                 throw new UdtException(2, 1, 0);
@@ -1274,10 +1275,10 @@ namespace UdtSharp
         }
 
         public int recv(byte[] data, int offset, int len)
-        {
+        {   /* error with major 5 and minor 10 meant "This operation is not supported in SOCK_DGRAM mode"
             if (SocketType.Dgram == m_iSockType)
                 throw new UdtException(5, 10, 0);
-
+            */
             // throw an exception if not connected
             if (!m_bConnected)
                 throw new UdtException(2, 2, 0);

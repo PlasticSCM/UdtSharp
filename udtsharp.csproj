@@ -1,11 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetProfile>netstandard</TargetProfile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>UdtPerfTest.Program</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
     <AssemblyName>udtsharp</AssemblyName>
     <RootNamespace>udtperftest</RootNamespace>
-    <StartupObject>UdtPerfTest.Program</StartupObject>
+    <PackageId>UdtSharp</PackageId>
+    <Description>Managed (C#) port of udt from C++</Description>
+    <PackageProjectUrl>https://github.com/PlasticSCM/UdtSharp</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -16,13 +27,23 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <Compile Remove="tests\*.cs" />
+    <Compile Remove="samples\Program.cs" />
   </ItemGroup>
 
 </Project>

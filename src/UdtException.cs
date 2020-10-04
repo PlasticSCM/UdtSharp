@@ -10,6 +10,7 @@ namespace UdtSharp
         int m_iErrno;
 
         public UdtException(int major = 0, int minor = 0, int err = -1)
+            : base(getErrorMessage(major, minor))
         {
             m_iMajor = major;
             m_iMinor = minor;
@@ -24,13 +25,13 @@ namespace UdtSharp
                 m_iErrno = err;
         }
 
-        public string getErrorMessage()
+        private static string getErrorMessage(int major, int minor)
         {
             // translate "Major:Minor" code into text message.
 
             string strMsg = string.Empty;
 
-            switch (m_iMajor)
+            switch (major)
             {
                 case 0:
                     strMsg = "Success";
@@ -39,7 +40,7 @@ namespace UdtSharp
                 case 1:
                     strMsg = "Connection setup failure";
 
-                    switch (m_iMinor)
+                    switch (minor)
                     {
                         case 1:
                             strMsg += ": connection time out";
@@ -64,7 +65,7 @@ namespace UdtSharp
                     break;
 
                 case 2:
-                    switch (m_iMinor)
+                    switch (minor)
                     {
                         case 1:
                             strMsg = "Connection was broken";
@@ -83,7 +84,7 @@ namespace UdtSharp
                 case 3:
                     strMsg = "System resource failure";
 
-                    switch (m_iMinor)
+                    switch (minor)
                     {
                         case 1:
                             strMsg += ": unable to create new threads";
@@ -102,7 +103,7 @@ namespace UdtSharp
                 case 4:
                     strMsg = "File system failure";
 
-                    switch (m_iMinor)
+                    switch (minor)
                     {
                         case 1:
                             strMsg += ": cannot seek read position";
@@ -129,7 +130,7 @@ namespace UdtSharp
                 case 5:
                     strMsg = "Operation not supported";
 
-                    switch (m_iMinor)
+                    switch (minor)
                     {
                         case 1:
                             strMsg += ": Cannot do this operation on a BOUND socket";
@@ -192,7 +193,7 @@ namespace UdtSharp
                 case 6:
                     strMsg = "Non-blocking call failure";
 
-                    switch (m_iMinor)
+                    switch (minor)
                     {
                         case 1:
                             strMsg += ": no buffer available for sending";
